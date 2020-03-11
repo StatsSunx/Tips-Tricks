@@ -1,12 +1,20 @@
 ### 一、CSS布局系列
 
-[**1、CSS行等分布局的常用方法**]()
+[1、CSS行等分布局的常用方法]()
 
-[**2、三栏布局的5种方法**]()
+[2、三栏布局的5种方法]()
 
+### 二、JS部分
 
+[1、生产随机数(随机字符串)]()
+
+---
+
+#### CSS
 
 ##### 1、行等分布局的常用方法
+
+详细参考：[实现CSS等分布局的5种方式](https://www.cnblogs.com/xiaohuochai/p/5456695.html)
 
 ```css
 /*案例通一使用以下html布局*/
@@ -97,6 +105,8 @@
 ```
 
 ##### 2、三栏布局的5种方法
+
+详细参考：[几种常见的CSS布局](https://juejin.im/post/5bbcd7ff5188255c80668028#heading-12)
 
 ```css
 /*前2种方法使用以下html结构*/
@@ -247,5 +257,91 @@
     height: 100%;
     background-color: pink;
 }
+```
+
+
+
+#### JS
+
+##### 1、生产随机数或随机字符串
+
+详细参考：[JS生成随机数的方法汇总](https://www.hangge.com/blog/cache/detail_1872.html)
+
+```javascript
+//一、随机浮点数
+    //函数中m > n
+    function getRandomNum(n,m) {
+        this.n = n;
+        this.m = m;
+        //1、取得[n,m)间随机数
+        this.rightOpen = function(){
+            var result = Math.random()*(this.m-this.n)+this.n;
+            return result;
+        };
+        //2、取得[n,m]间随机数
+        this.bothClose = function(){
+            var result = Math.random()*(this.m+1-this.n)+this.n;
+            while (result > this.m) {
+                result = Math.random()*(this.m+1-this.n)+this.n;
+            }
+            return result;
+        };
+        //3、取得(n,m)间随机数
+        this.bothOpen = function(){
+            var result = Math.random()*(this.m-this.n)+this.n -1;
+            while (result <= this.n) {
+                result = Math.random()*(this.m-this.n)+this.n -1;
+            }
+            return result;
+        };
+        //4、取得(n,m]间随机数
+        this.leftOpen = function(){
+            var result = Math.random()*(this.m+1-this.n)+this.n -1;
+            while (result < this.n || result > this.m) {
+                result = Math.random()*(this.m+1-this.n)+this.n -1;
+            }
+            return result;
+        };
+    };
+    var random1 = new getRandomNum(0,1);
+    console.log(random1.rightOpen());
+    var random2 = new getRandomNum(-5,0);
+    console.log(random2.bothOpen());
+    console.log(random2.leftOpen());
+
+//二、随机整数
+    //Math.round(result)：四舍五入
+    //Math.floor()：向下取整
+    function getIntRandomNum(n,m) {
+        this.n = n;
+        this.m = m;
+        this.rightOpen = function(){
+            var result = Math.random()*(this.m-this.n)+this.n;
+            return Math.floor(result);
+        };
+        this.bothClose = function(){
+            var result = Math.random()*(this.m+1-this.n)+this.n;
+            return Math.floor(result);
+        };
+    }
+    var random3 = new getIntRandomNum(10,15);
+    console.log(random3.rightOpen());
+    console.log(random3.bothClose());
+
+//三、随机字符串
+    function getRandomString(n) {
+        var chars = ['0','1','2','3','4','5','6','7','8','9',
+              'A','B','C','D','E','F','G','H','I','J','K','L','M',
+              'N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+        var result = '';
+        for (var i = 0; i < n; i++) {
+            var id = Math.floor(Math.random()*36);
+            result += chars[id];
+        }
+        return result;
+    }
+
+    console.log(getRandomString(6));
+    console.log(getRandomString(10));
 ```
 
